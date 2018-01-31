@@ -3,7 +3,17 @@ window.socket = new WebSocket("ws://" + location.host +"/ws");
 
 function sendMessage(msg)
 {
-	socket.send(msg)
+	var len = '' + msg.length
+	while(len.length <5) len += ' '
+	socket.send(len + msg)
+}
+
+function handleSubmit()
+{
+	var el = document.getElementById("chat-msg")
+	sendMessage(el.value)
+	el.value = '';
+	return false;
 }
 
 function setUpSocket(onmessage)
@@ -39,7 +49,7 @@ function DisplayMessage (msg)
 	var container = document.getElementById("container");
 	var div = document.createElement("div");
 	div.className = 'message';
-	var textNode = document.createTextNode(msg);
+	var textNode = document.createTextNode(msg.data);
 
 	div.appendChild(textNode);
 	container.appendChild(div);
